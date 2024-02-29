@@ -1,0 +1,40 @@
+<?php
+$host="localhost";
+$user="web";
+$db="Dunamis";
+$pass="JC5p2svRsFUIrkL1";
+if(!is_dir("letters/".$_POST["folder"])) mkdir("letters/".$_POST["folder"]);
+$target_dir = "letters/".$_POST["folder"]."/";
+$target_file = $target_dir . basename($_FILES["file"]["name"]);
+$uploadOk = 1;
+if (file_exists($target_file)) {
+    echo "Sorry, file already exists.";
+    $uploadOk = 0;
+}
+if ($uploadOk == 0) {
+    echo "Sorry, your file was not uploaded.";
+} else {
+    if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
+       /*$connect = mysqli_connect($host,$user,$pass,$db);
+		if(!$connect){
+  			die('Kapcsolódási hiba (' . mysqli_connect_errno() . ') ' . mysqli_connect_error());
+		}
+		mysqli_query($connect, 'SET NAMES "utf8" collate "utf8_hungarian_ci"');
+		$send = mysqli_query($connect,"SELECT * FROM `list_of_events` WHERE `EVENTNAME` = '".$_POST["folder"]."'");
+		if(!$send){
+        	die('Query hiba az eventletterupload.php-ban (' . mysqli_connect_errno() . ') ' . mysqli_connect_error());
+   		}
+		$row = mysqli_fetch_assoc($send);
+		$COMMENT = $row["COMMENT"].'<br><a target="_blank" href="'.$target_file.'">'.$afilename.'</a><br>';
+		$sql = "UPDATE `list_of_events` SET `COMMENT` = '".$COMMENT."' WHERE `EVENTNAME` = '".$_POST["folder"]."' ";
+		echo $sql;
+		$send = mysqli_query($connect,$sql);
+		if(!$send){
+        	die('Query hiba az eventletterupload.php-ban (' . mysqli_connect_errno() . ') ' . mysqli_connect_error());
+   		}
+		else */header('Location: eventshow.php?find='.urlencode($_POST["folder"]));
+    } else {
+        echo "Sorry, there was an error uploading your file.";
+    }
+}
+?>
